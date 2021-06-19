@@ -18,22 +18,22 @@ func main() {
 	log.Printf("Wishlist Notifier loading...")
 
 	//get environments:
-	w, ok := os.LookupEnv("SCA_WISHLISTID")
+	w, ok := os.LookupEnv("WL_SCA_WLID")
 	if !ok {
 		log.Fatal("WL_SCA_WLID not set")
 	}
 
-	a, ok := os.LookupEnv("SCA_PUSHOVER_APP")
+	a, ok := os.LookupEnv("WL_PUSHOVER_APP")
 	if !ok {
 		log.Fatal("WL_PUSHOVER_APP not set")
 	}
 
-	r, ok := os.LookupEnv("SCA_PUSHOVER_RECIPIENT")
+	r, ok := os.LookupEnv("WL_PUSHOVER_RECIPIENT")
 	if !ok {
 		log.Fatal("WL_PUSHOVER_RECIPIENT not set")
 	}
 
-	c, ok := os.LookupEnv("SCA_CRON")
+	c, ok := os.LookupEnv("WL_CRON")
 	if !ok {
 		log.Fatal("WL_CRON not set")
 	}
