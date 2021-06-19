@@ -28,12 +28,12 @@ version: "3"
 services:
   sca-wishlist-notifier:
     image: atajsic/sca-wishlist-notifier
-    environment:
-      - WL_SCA_WLID=###
-      - WL_PUSHOVER_APP=###
-      - WL_PUSHOVER_RECIPIENT=###
-      - WL_CRON="0 9 * * *"
     restart: unless-stopped
+    environment:
+      WL_SCA_WLID: ###
+      WL_PUSHOVER_APP: ###
+      WL_PUSHOVER_RECIPIENT: ###
+      WL_CRON: "0 9 * * *"
 ```
 
 ## License
