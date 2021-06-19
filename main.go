@@ -49,6 +49,8 @@ func main() {
 	timer.Start()
 	log.Printf("Cron started.")
 
+	select {}
+
 }
 
 func checkWishlist(w string, pa *pushover.Pushover, pr *pushover.Recipient) {
