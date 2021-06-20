@@ -2,7 +2,7 @@
 
 ## Introduction
 
-SCA Wishlist notifier parses your Super Cheap Auto (SCA) Wishlist and sends notifications with pushover when there is a product on sale via pushover.
+SCA Wishlist notifier parses your Super Cheap Auto (SCA) Wishlist and sends notifications with pushover when there is a product on sale.
 
 ## Getting Started
 
