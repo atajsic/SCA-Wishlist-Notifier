@@ -8,18 +8,13 @@ SCA Wishlist notifier parses your Super Cheap Auto (SCA) Wishlist and sends noti
 
 The application is wrapped using docker, using environment variables.
 
-### docker
+### Supercheap Wishlist ID
 
-```
-docker create \
-  --name=sca-wishlist-notifier \
-  -e WL_SCA_WLID=### \
-  -e WL_PUSHOVER_APP=### \
-  -e WL_PUSHOVER_RECIPIENT=### \
-  -e WL_CRON="0 9 * * *" \
-  --restart unless-stopped \
-  atajsic/sca-wishlist-notifier
-```
+You can find this under you account, wishlist, share link. In the URL WishlistID=###
+
+### Cron
+
+See documentation here: http://godoc.org/github.com/robfig/cron
 
 ### docker-compose
 
@@ -28,12 +23,15 @@ version: "3"
 services:
   sca-wishlist-notifier:
     image: atajsic/sca-wishlist-notifier
-    restart: unless-stopped
     environment:
       WL_SCA_WLID: ###
       WL_PUSHOVER_APP: ###
       WL_PUSHOVER_RECIPIENT: ###
-      WL_CRON: "0 9 * * *"
+      WL_CRON: "0 0 9 * * *"
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
 ```
 
 ## License
