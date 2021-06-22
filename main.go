@@ -55,6 +55,8 @@ func main() {
 
 func checkWishlist(w string, pa *pushover.Pushover, pr *pushover.Recipient) {
 
+	log.Println("Checking Wishlist...")
+
 	res, err := http.Get("https://www.supercheapauto.com.au/showotherwishlist?WishListID=" + w)
 	if err != nil {
 		log.Fatal(err)
