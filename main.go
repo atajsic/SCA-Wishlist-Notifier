@@ -17,7 +17,7 @@ func main() {
 
 	log.Printf("Wishlist Notifier loading...")
 
-	//get environments:
+	// get environments:
 	w, ok := os.LookupEnv("WL_SCA_WLID")
 	if !ok {
 		log.Fatal("WL_SCA_WLID not set")
@@ -41,6 +41,8 @@ func main() {
 	pa := pushover.New(a)
 	pr := pushover.NewRecipient(r)
 
+	checkWishlist(w, pa, pr)
+
 	timer := cron.New()
 	err := timer.AddFunc(c, func() { checkWishlist(w, pa, pr) })
 	if err != nil {
@@ -57,7 +59,9 @@ func checkWishlist(w string, pa *pushover.Pushover, pr *pushover.Recipient) {
 
 	log.Println("Checking Wishlist...")
 
-	res, err := http.Get("https://www.supercheapauto.com.au/showotherwishlist?WishListID=" + w)
+	wlurl := "https://www.supercheapauto.com.au/showotherwishlist?WishListID=" + w
+
+	res, err := http.Get(wlurl)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,6 +75,8 @@ func checkWishlist(w string, pa *pushover.Pushover, pr *pushover.Recipient) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	final := ""
 
 	// Find the wishlist items
 	doc.Find(".wishlist-row").Each(func(i int, s *goquery.Selection) {
@@ -88,22 +94,22 @@ func checkWishlist(w string, pa *pushover.Pushover, pr *pushover.Recipient) {
 
 		//item on sale
 		if len(standard) > 0 {
-
-			message := &pushover.Message{
-				Message:  fmt.Sprintf("%s\n%s (Usually %s)\n%.2f%% off", title, sales, standard, perc),
-				Title:    "Wishlist Notifier",
-				URL:      link,
-				URLTitle: "View Product",
-			}
-
-			_, err := pa.SendMessage(message, pr)
-			if err != nil {
-				log.Panic(err)
-			}
-
+			final += fmt.Sprintf("%s\n%s (Usually %s)\n%.2f%% off\n%s\n\n", title, sales, standard, perc, link)
 			log.Println(title + " - " + sales)
 		}
-
 	})
+
+	if final != "" {
+		message := &pushover.Message{
+			Message:  final,
+			Title:    "Wishlist Notifier",
+			URL:      wlurl,
+			URLTitle: "View Wishlist",
+		}
+		_, err := pa.SendMessage(message, pr)
+		if err != nil {
+			log.Panic(err)
+		}
+	}
 
 }
