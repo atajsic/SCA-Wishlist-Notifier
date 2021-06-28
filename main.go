@@ -41,8 +41,6 @@ func main() {
 	pa := pushover.New(a)
 	pr := pushover.NewRecipient(r)
 
-	checkWishlist(w, pa, pr)
-
 	timer := cron.New()
 	err := timer.AddFunc(c, func() { checkWishlist(w, pa, pr) })
 	if err != nil {
